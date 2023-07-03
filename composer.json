@@ -1,24 +1,20 @@
 {
-    "name": "hexlet/code",
-    "bin": [
-	    "bin/gendiff.php"	
-    ],
-    "require": {
-        "docopt/docopt": "^1.0",
-        "squizlabs/php_codesniffer": "^3.7"
-    },
+    "name": "sasha/hexlet-p2",
     "autoload": {
         "psr-4": {
-            "Hexlet\\Code\\": "src/"
+            "Sasha\\HexletP2\\": "src/"
         },
         "files": [
-            "src/showDoc.php"
+            "src/parser.php",
+            "src/showDiff.php"
         ]
     },
-    "authors": [
-        {
-            "name": "sander",
-            "email": "sander_@inbox.ru"
-        }
-    ]
+    "require": {
+        "docopt/docopt": "^1.0.4",
+        "lstrojny/functional-php" : "^1.17",
+        "squizlabs/php_codesniffer" : "^3.7.2"
+    },
+    "bin": [
+        "bin/gendiff"
+      ]
 }
