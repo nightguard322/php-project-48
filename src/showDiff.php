@@ -29,7 +29,7 @@ function showDiff($file1, $file2)
         },
         []
     );
-    return implode("\n", $difference);
+    return "{\n". implode("\n", $difference) . "\n}";
 }
 
 function buildNode(string $status, $key, $old, $new = null)
@@ -46,6 +46,16 @@ function buildNode(string $status, $key, $old, $new = null)
     ["{$indentList['old']} {$key}: $current", "{$indentList['added']} {$key}: $newValue"]
     :
     ["{$indentList[$status]} {$key}: $current"];
+}
+
+function getPath($path)
+{
+    $path = str_replace('\\', '/', $path);
+    if ($path[1] === ':') {
+        $replace = substr($path, 0, 2);
+        $path = str_replace($replace, '/mnt/' . strtolower($path[0]), $path);
+    }
+    return is_file($path) ? $path : getcwd() . $path;
 }
 
 function getValue($value)

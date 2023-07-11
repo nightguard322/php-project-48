@@ -1,5 +1,6 @@
 {
     "name": "sasha/hexlet-p2",
+    "description": "show difference between two files",
     "autoload": {
         "psr-4": {
             "Sasha\\HexletP2\\": "src/"
@@ -16,5 +17,7 @@
     },
     "bin": [
         "bin/gendiff"
-      ]
+      ],
+    "license": "MIT",
+    "minimum-stability": "dev"
 }

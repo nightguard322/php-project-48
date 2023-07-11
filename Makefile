@@ -8,3 +8,5 @@ gendiff:
 	./bin/gendiff
 validate:
 	composer validate
+rec:
+	asciinema rec
