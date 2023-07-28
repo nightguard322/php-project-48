@@ -1,6 +1,6 @@
 <?php
 
-namespace Hexlet\Code\Showdiff;
+namespace Hexletp2;
 
 function showDiff($file1, $file2)
 {
@@ -29,7 +29,7 @@ function showDiff($file1, $file2)
         },
         []
     );
-    return "{\n". implode("\n", $difference) . "\n}";
+    return "{\n" . implode("\n", $difference) . "\n}";
 }
 
 function buildNode(string $status, $key, $old, $new = null)
@@ -43,9 +43,9 @@ function buildNode(string $status, $key, $old, $new = null)
     ];
     return $status === 'changed'
     ?
-    ["{$indentList['old']} {$key}: $current", "{$indentList['added']} {$key}: $newValue"]
+    ["  {$indentList['old']} {$key}: {$current}", "  {$indentList['added']} {$key}: {$newValue}"]
     :
-    ["{$indentList[$status]} {$key}: $current"];
+    ["  {$indentList[$status]} {$key}: {$current}"];
 }
 
 function getPath($path)

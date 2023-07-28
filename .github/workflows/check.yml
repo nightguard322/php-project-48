@@ -1,0 +1,22 @@
+name:
+  helxetL2Check
+
+on:
+  push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: action/checkout@v3
+      - uses: shivammathur/setup-php@v2
+        wuth:
+          php-version: 8.2
+      name: run install
+        run: make install
+      name: run lint
+        run: make lint
+      name: run tests 
+        run: make gendiffTest
+      
+      

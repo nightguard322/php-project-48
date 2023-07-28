@@ -1,6 +1,6 @@
 <?php
 
-namespace Hexlet\Code\Parser;
+namespace Hexletp2;
 
 use Exception;
 

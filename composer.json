@@ -3,7 +3,8 @@
     "description": "show difference between two files",
     "autoload": {
         "psr-4": {
-            "Sasha\\HexletP2\\": "src/"
+            "HexletP2\\": "src/",
+            "Tests\\": "tests/"
         },
         "files": [
             "src/parser.php",
@@ -19,5 +20,8 @@
         "bin/gendiff"
       ],
     "license": "MIT",
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require-dev": {
+        "phpunit/phpunit": "^10.3@dev"
+    }
 }

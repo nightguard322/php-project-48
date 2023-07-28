@@ -1,4 +1,3 @@
 <?php
 
-namespace Hexlet\Code\Showdoc;
-
+namespace Hexletp2;
