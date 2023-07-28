@@ -12,11 +12,11 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
-      name: run install
+      - name: run install
         run: make install
-      name: run lint
+      - name: run lint
         run: make lint
-      name: run tests 
+      - name: run tests 
         run: make gendiffTest
       
       
