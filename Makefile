@@ -11,4 +11,4 @@ validate:
 rec:
 	asciinema rec
 gendiffTest:
-	composer exec --verbose phpunit tests -- --coverage-text --coverage-html report
+	composer exec --verbose phpunit tests -- --coverage-text --coverage-html report --coverage-clover clover.xml
