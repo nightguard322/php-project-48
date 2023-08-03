@@ -4,9 +4,6 @@ namespace Hexlet\P2\Tests;
 
 use PHPUnit\Framework\TestCase;
 use function Hexlet\P2\genDiff;
-/**
- * @covers ::genDiff
- */
 
 class GendiffTest extends TestCase
 {
