@@ -3,8 +3,8 @@
     "description": "show difference between two files",
     "autoload": {
         "psr-4": {
-            "HexletP2\\": "src/",
-            "Tests\\": "tests/"
+            "Hexlet\\P2\\": "src/",
+            "Hexlet\\P2\\Tests\\": "tests/"
         },
         "files": [
             "src/parser.php",

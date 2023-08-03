@@ -1,9 +1,19 @@
 <?php
 
-namespace Hexletp2;
+namespace Hexlet\P2;
+
+use function Hexlet\P2\parse;
+
+function genDiff(string $file1, string $file2): string
+{
+    $firstFile = parse(getPath($file1));
+    $secondFile = parse(getPath($file2));
+    return showDiff($firstFile, $secondFile);
+}
 
 function showDiff($file1, $file2)
 {
+    
     $keys = array_merge(array_keys($file1), array_keys($file2));
     $map = array_unique($keys);
     sort($map);

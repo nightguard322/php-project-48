@@ -1,10 +1,10 @@
 <?php
 
-namespace Hexletp2;
+namespace Hexlet\P2;
 
 use Exception;
 
-function parse(string $path)
+function parse(string $path): array
 {
     if (is_file($path)) {
         $file = file_get_contents($path);
