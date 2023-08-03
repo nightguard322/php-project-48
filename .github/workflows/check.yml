@@ -20,5 +20,12 @@ jobs:
         run: make lint
       - name: run tests 
         run: make gendiffTest
-      
-      
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v5.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.TEST_ID }}
+        with:
+          coverageCommand: make coverage
+          coverageLocations: |
+            ${{github.workspace}}/clover.xml:clover
+          

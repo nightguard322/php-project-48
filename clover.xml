@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1691049112">
-  <project timestamp="1691049112">
+<coverage generated="1691052244">
+  <project timestamp="1691052244">
     <file name="/home/sasha/helxetp2/php-project-48/src/parser.php">
       <line num="9" type="stmt" count="1"/>
       <line num="10" type="stmt" count="1"/>
