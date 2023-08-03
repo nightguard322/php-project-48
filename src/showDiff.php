@@ -13,7 +13,6 @@ function genDiff(string $file1, string $file2): string
 
 function showDiff($file1, $file2)
 {
-    
     $keys = array_merge(array_keys($file1), array_keys($file2));
     $map = array_unique($keys);
     sort($map);
