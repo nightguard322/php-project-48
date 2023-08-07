@@ -29,7 +29,7 @@ function parse(string $path)
         case 'json':
             return json_decode($file, true);
             break;
-        case 'yml':
+        case 'yml' || 'yaml':
             $yaml = Yaml::parse($file, Yaml::PARSE_OBJECT_FOR_MAP);
             return yamlToArray($yaml);
             break;
