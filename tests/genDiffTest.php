@@ -12,9 +12,9 @@ class GendiffTest extends TestCase
   
   public function testGendiff()
   {
-      $expected = file_get_contents(__DIR__ . '/fixtures/result.txt');
-      $before = __DIR__ . '/fixtures/before.json';
-      $after = __DIR__ . '/fixtures/after.json';
+      $expected = file_get_contents(__DIR__ . '/fixtures/resultWithNested.txt');
+      $before = __DIR__ . '/fixtures/beforeWithNested.json';
+      $after = __DIR__ . '/fixtures/afterWithNested.json';
       $this->assertEquals($expected, genDiff($before, $after));
   }
 

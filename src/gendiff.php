@@ -64,7 +64,7 @@ function getPath($path)
         $replace = substr($path, 0, 2);
         $path = str_replace($replace, '/mnt/' . strtolower($path[0]), $path);
     }
-    return is_file($path) ? $path : getcwd() . $path;
+    return $path;
 }
 
 
