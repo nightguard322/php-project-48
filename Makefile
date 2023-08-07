@@ -5,7 +5,7 @@ install:
 lint:
 	composer exec --verbose phpcs -- --standard=PSR12 src bin
 gendiff:
-	./bin/gendiff bin/file1.json bin/file2.json
+	./bin/gendiff bin/file1.yml bin/file2.yml
 validate:
 	composer validate
 rec:

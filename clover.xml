@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1691052244">
-  <project timestamp="1691052244">
-    <file name="/home/sasha/helxetp2/php-project-48/src/parser.php">
-      <line num="9" type="stmt" count="1"/>
-      <line num="10" type="stmt" count="1"/>
-      <line num="12" type="stmt" count="0"/>
-      <line num="14" type="stmt" count="1"/>
-      <metrics loc="16" ncloc="16" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="3" elements="4" coveredelements="3"/>
-    </file>
-    <file name="/home/sasha/helxetp2/php-project-48/src/showDiff.php">
+<coverage generated="1691388757">
+  <project timestamp="1691388757">
+    <file name="/home/sasha/helxetp2/php-project-48/src/gendiff.php">
       <line num="9" type="stmt" count="1"/>
       <line num="10" type="stmt" count="1"/>
       <line num="11" type="stmt" count="1"/>
@@ -53,12 +46,32 @@
       <line num="64" type="stmt" count="0"/>
       <line num="65" type="stmt" count="0"/>
       <line num="67" type="stmt" count="1"/>
-      <line num="72" type="stmt" count="1"/>
       <line num="73" type="stmt" count="1"/>
       <line num="74" type="stmt" count="1"/>
-      <line num="76" type="stmt" count="1"/>
-      <metrics loc="79" ncloc="79" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="48" coveredstatements="46" elements="48" coveredelements="46"/>
+      <line num="75" type="stmt" count="1"/>
+      <line num="77" type="stmt" count="1"/>
+      <metrics loc="80" ncloc="79" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="48" coveredstatements="46" elements="48" coveredelements="46"/>
     </file>
-    <metrics files="2" loc="95" ncloc="95" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="52" coveredstatements="49" elements="52" coveredelements="49"/>
+    <file name="/home/sasha/helxetp2/php-project-48/src/parser.php">
+      <line num="10" type="stmt" count="1"/>
+      <line num="11" type="stmt" count="1"/>
+      <line num="12" type="stmt" count="1"/>
+      <line num="13" type="stmt" count="0"/>
+      <line num="15" type="stmt" count="1"/>
+      <line num="17" type="stmt" count="1"/>
+      <line num="22" type="stmt" count="2"/>
+      <line num="23" type="stmt" count="2"/>
+      <line num="24" type="stmt" count="2"/>
+      <line num="26" type="stmt" count="0"/>
+      <line num="28" type="stmt" count="2"/>
+      <line num="29" type="stmt" count="2"/>
+      <line num="30" type="stmt" count="1"/>
+      <line num="32" type="stmt" count="1"/>
+      <line num="33" type="stmt" count="1"/>
+      <line num="34" type="stmt" count="1"/>
+      <line num="37" type="stmt" count="0"/>
+      <metrics loc="40" ncloc="40" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="17" coveredstatements="14" elements="17" coveredelements="14"/>
+    </file>
+    <metrics files="2" loc="120" ncloc="119" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="65" coveredstatements="60" elements="65" coveredelements="60"/>
   </project>
 </coverage>

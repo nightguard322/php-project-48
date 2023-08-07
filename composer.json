@@ -8,7 +8,7 @@
         },
         "files": [
             "src/parser.php",
-            "src/showDiff.php"
+            "src/gendiff.php"
         ]
     },
     "require": {
@@ -22,6 +22,7 @@
     "license": "MIT",
     "minimum-stability": "dev",
     "require-dev": {
-        "phpunit/phpunit": "^10.3@dev"
+        "phpunit/phpunit": "^10.3@dev",
+        "symfony/yaml": "6.4.x-dev"
     }
 }

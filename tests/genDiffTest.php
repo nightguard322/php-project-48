@@ -4,6 +4,7 @@ namespace Hexlet\P2\Tests;
 
 use PHPUnit\Framework\TestCase;
 use function Hexlet\P2\genDiff;
+use function Hexlet\P2\parse;
 
 class GendiffTest extends TestCase
 {
@@ -16,6 +17,7 @@ class GendiffTest extends TestCase
       $after = __DIR__ . '/fixtures/after.json';
       $this->assertEquals($expected, genDiff($before, $after));
   }
+
 }
 
 // 

@@ -56,7 +56,7 @@ function buildNode(string $status, $key, $old, $new = null)
     :
     ["  {$indentList[$status]} {$key}: {$current}"];
 }
-
+//With windows env
 function getPath($path)
 {
     $path = str_replace('\\', '/', $path);
@@ -66,6 +66,7 @@ function getPath($path)
     }
     return is_file($path) ? $path : getcwd() . $path;
 }
+
 
 function getValue($value)
 {
