@@ -3,12 +3,14 @@
 namespace Hexlet\P2;
 
 use function Hexlet\P2\parse;
+use function Hexlet\P2\Render\stylish;
 
-function genDiff(string $file1, string $file2): string
+function genDiff(string $file1, string $file2)
 {
-    $firstFile = parse(getPath($file1));
-    $secondFile = parse(getPath($file2));
-    return showDiff($firstFile, $secondFile);
+    $firstFile = parse($file1);
+    $secondFile = parse($file2);
+    $diffObject = showDiff($firstFile, $secondFile);
+    return stylish($diffObject);
 }
 
 function showDiff($file1, $file2)
@@ -21,59 +23,40 @@ function showDiff($file1, $file2)
         function ($acc, $key) use ($file1, $file2) {
             switch (true) {
                 case (array_key_exists($key, $file1) && array_key_exists($key, $file2)):
-                    $data = $file1[$key] === $file2[$key]
-                    ?
-                    buildNode('same', $key, $file1[$key])
-                    :
-                    buildNode('changed', $key, $file1[$key], $file2[$key]);
+                    if (is_array($file1[$key] && is_array($file2[$key]))) {
+                        $data = buildNode('nested', $key, null, null, showDiff($file1[$key], $file2[$key]));
+                    }
+                    elseif ($file1[$key] === $file2[$key]) {
+                        $data = buildNode('same', $key, $file1[$key]);
+                    } else {
+                        $data = buildNode('changed', $key, $file1[$key], $file2[$key]); //два значения
+                    }
                     break;
                 case array_key_exists($key, $file1):
-                    $data = buildNode('old', $key, $file1[$key]);
+                    $data = buildNode('old', $key, $file1[$key]); //только старое
                     break;
                 case array_key_exists($key, $file2):
-                    $data = buildNode('added', $key, $file2[$key]);
+                    $data = buildNode('added', $key, $file2[$key]); //только новое
                     break;
             }
             return array_merge($acc, $data);
         },
         []
     );
+    // return $difference;
     return "{\n" . implode("\n", $difference) . "\n}";
 }
 
-function buildNode(string $status, $key, $old, $new = null)
+function buildNode(string $status, $key, $oldValue, $newValue = null, $children = null)
 {
-    $current = getValue($old);
-    $newValue = $new ? getValue($new) : null;
-    $indentList = [
-        'same' => ' ',
-        'added' => '+',
-        'old' => '-'
+    $node = [
+        'status' => $status,
+        '$key' => $key,
+        'oldValue' => $oldValue,
+        'newValue' => $newValue,
+        'children' => $children
     ];
-    return $status === 'changed'
-    ?
-    ["  {$indentList['old']} {$key}: {$current}", "  {$indentList['added']} {$key}: {$newValue}"]
-    :
-    ["  {$indentList[$status]} {$key}: {$current}"];
+    return $node;
 }
+
 //With windows env
-function getPath($path)
-{
-    $path = str_replace('\\', '/', $path);
-    if ($path[1] === ':') {
-        $replace = substr($path, 0, 2);
-        $path = str_replace($replace, '/mnt/' . strtolower($path[0]), $path);
-    }
-    return $path;
-}
-
-
-function getValue($value)
-{
-    switch (gettype($value)) {
-        case 'boolean':
-            return $value ? 'true' : 'false';
-        default:
-            return $value;
-    }
-}
