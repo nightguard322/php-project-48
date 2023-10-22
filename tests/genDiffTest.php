@@ -12,6 +12,7 @@ class GendiffTest extends TestCase
   
   public function testGendiff()
   {
+      // $expected = file_get_contents(__DIR__ . '/fixtures/resultWithNested.txt');
       $expected = file_get_contents(__DIR__ . '/fixtures/resultWithNested.txt');
       $before = __DIR__ . '/fixtures/beforeWithNested.json';
       $after = __DIR__ . '/fixtures/afterWithNested.json';

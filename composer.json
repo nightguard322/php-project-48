@@ -3,10 +3,12 @@
     "description": "show difference between two files",
     "autoload": {
         "psr-4": {
+            "Hexlet\\P2\\Render\\": "src/render",
             "Hexlet\\P2\\": "src/",
             "Hexlet\\P2\\Tests\\": "tests/"
         },
         "files": [
+            "src/render/stylish.php",
             "src/parser.php",
             "src/gendiff.php"
         ]

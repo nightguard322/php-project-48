@@ -23,13 +23,14 @@ function showDiff($file1, $file2)
         function ($acc, $key) use ($file1, $file2) {
             switch (true) {
                 case (array_key_exists($key, $file1) && array_key_exists($key, $file2)):
-                    if (is_array($file1[$key] && is_array($file2[$key]))) {
+                    if (is_array($file1[$key]) && (is_array($file2[$key]))) {
                         $data = buildNode('nested', $key, null, null, showDiff($file1[$key], $file2[$key]));
                     }
                     elseif ($file1[$key] === $file2[$key]) {
                         $data = buildNode('same', $key, $file1[$key]);
                     } else {
                         $data = buildNode('changed', $key, $file1[$key], $file2[$key]); //два значения
+
                     }
                     break;
                 case array_key_exists($key, $file1):
@@ -39,19 +40,20 @@ function showDiff($file1, $file2)
                     $data = buildNode('added', $key, $file2[$key]); //только новое
                     break;
             }
-            return array_merge($acc, $data);
+            $acc[] = $data;
+            return $acc;
         },
         []
     );
-    // return $difference;
-    return "{\n" . implode("\n", $difference) . "\n}";
+    return $difference;
+    // return "{\n" . implode("\n", $difference) . "\n}";
 }
 
 function buildNode(string $status, $key, $oldValue, $newValue = null, $children = null)
 {
     $node = [
         'status' => $status,
-        '$key' => $key,
+        'key' => $key,
         'oldValue' => $oldValue,
         'newValue' => $newValue,
         'children' => $children
