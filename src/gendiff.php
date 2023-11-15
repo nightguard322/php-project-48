@@ -9,7 +9,7 @@ function genDiff(string $file1, string $file2)
 {
     $firstFile = parse($file1);
     $secondFile = parse($file2);
-    $diffObject = showDiff($firstFile, $secondFile);
+    $diffObject = showDiff(toString($firstFile), toString($secondFile));
     return stylish($diffObject);
 }
 
@@ -30,14 +30,13 @@ function showDiff($file1, $file2)
                         $data = buildNode('same', $key, $file1[$key]);
                     } else {
                         $data = buildNode('changed', $key, $file1[$key], $file2[$key]); //два значения
-
                     }
                     break;
                 case array_key_exists($key, $file1):
                     $data = buildNode('old', $key, $file1[$key]); //только старое
                     break;
                 case array_key_exists($key, $file2):
-                    $data = buildNode('added', $key, $file2[$key]); //только новое
+                    $data = buildNode('added', $key, null, $file2[$key]); //только новое
                     break;
             }
             $acc[] = $data;
@@ -54,11 +53,17 @@ function buildNode(string $status, $key, $oldValue, $newValue = null, $children 
     $node = [
         'status' => $status,
         'key' => $key,
-        'oldValue' => $oldValue,
-        'newValue' => $newValue,
+        'old' => $oldValue,
+        'added' => $newValue,
         'children' => $children
     ];
     return $node;
 }
 
+function toString($value)
+{
+    if (is_array($value)) 
+        return array_map(fn($current) => toString($current), $value);
+    return is_null($value) ? 'null' : trim(var_export($value, true), "'");
+}
 //With windows env

@@ -7,26 +7,27 @@ const SPACE = ' ';
 
 function stylish($diffObject)
 {
+    //где то просачиваются элементы обьекта вместо values
     $iter = function ($current, $depth) use (&$iter, $diffObject) {
-        //var_dump($diffObject);
+        if (!is_array($current)) {
+            return $current;
+        }
+        echo "объект - \n";
+        var_dump($current);
         $key = $current['key'];
-        // $spaces = str_repeat(SPACES, $depth);
+        echo "ключ: $key\n";
         if ($current['children']) {
             $preparedChildren = array_map(fn($child) => $iter($child, $depth + 1), $current['children']);
             $lines = ["{", ...$preparedChildren, "}"];
             return makeIndentWithKey('same', $depth, $key) . ': ' . implode("\n", $lines);
         }
         $values = getValues($current);
-        $indents = $current['status'] === 'changed' ? ['old' , 'added'] : [$current['status']];
-        $lines = array_map(    
-            fn($indent, $value) => is_array($value) 
-            ?
-            makeIndentWithKey($indent, $depth, $key) . ': ' . $iter($value, $depth + 1)
-            :
-            makeIndentWithKey($indent, $depth, $key) . ': ' . $value,
-        $indents,
-        $values);
-
+        $status = array_key_exists('status', $current) ? $current['status'] : $current['same'];
+        $indents = $status === 'changed' ? ['old', 'added'] : [$status];
+        $lines = array_map(
+            fn($indent, $value) =>
+                makeIndentWithKey($indent, $depth, $key) . ': ' . $iter($value, $depth + 1),
+            $indents, $values);
         return implode("\n", $lines);
     };
     $diffBody = array_reduce(
@@ -37,35 +38,28 @@ function stylish($diffObject)
     return implode("\n", $result);
     
 }
-function makeIndentWithKey($indent, $depth, $key)
+function makeIndentWithKey($status, $depth, $key)
 {
     $indentList = [
         'old' => '- ',
         'added' => '+ ',
         'same' => str_repeat(SPACE, 2)
     ];
+    $indent = $indentList[$status];
     $currentSpaces = str_repeat(SPACE, (($depth * INDENTCOUNT) - 2));
-    // echo "Ключ - {$key} Глубина - {$depth} Результат - {$currentSpaces} Количество - " . ($depth * INDENTCOUNT - 2) . "\n";
-    return "{$currentSpaces}{$indentList[$indent]}{$key}";
+    return "{$currentSpaces}{$indent}{$key}";
 }
 function getValues($diffObject)
 {
-    switch (true) {
-        case (!is_null($diffObject['oldValue']) && !is_null($diffObject['newValue'])) :
-            // echo "старое - " . $diffObject['oldValue'] . "и новое - " .  $diffObject['newValue']  . "\n";
-            return [toString($diffObject['oldValue']), toString($diffObject['newValue'])];
-            break;
-        case !is_null($diffObject['oldValue']) :
-            // echo 'старое' . "\n";
-            return [toString($diffObject['oldValue'])];
-            break;
-        case !is_null($diffObject['newValue']) :
-            // echo 'новое'. "\n";
-            return [toString($diffObject['newValue'])];
+    switch ($diffObject['status']) {
+        case 'old': case 'same':
+            return [$diffObject['old']];
+        case 'added':
+            return [$diffObject['added']];
+        case 'changed':
+            return [$diffObject['old'], $diffObject['added']];
+        default:
+            return $diffObject;
         }
 }
 
-function toString($value)
-{
-    return trim(var_export($value, true), "'");
-}
