@@ -7,34 +7,40 @@ const SPACE = ' ';
 
 function stylish($diffObject)
 {
-    //где то просачиваются элементы обьекта вместо values
-    $iter = function ($current, $depth) use (&$iter, $diffObject) {
-        if (!is_array($current)) {
+    $iter = function ($current, $depth) use (&$iter) {
+        if (is_array($current)) {
+            $values = getValues($current);
+            if (array_key_exists('status', $current)) {
+                $currentKey = $current['key'];
+                if ($current['children']) {
+                    $preparedChildren = array_map(fn($child) => $iter($child, $depth + 1), $current['children']);
+                    $lines = ["{", ...$preparedChildren, "}"];
+                    return makeIndentWithKey('same', $depth, $currentKey) . ': ' . implode("\n", $lines);
+                }
+                $indents = $current['status'] === 'changed' ? ['old', 'added'] : [$current['status']];
+                $lines = array_map(
+                    fn($indent, $value) =>
+                        makeIndentWithKey($indent, $depth, $currentKey) . ': проверка' . $iter($value, $depth + 1),
+                    $indents, $values);
+            } else {
+                $status = 'same';
+                var_dump($current);
+                $lines = array_map(
+                    fn($key, $value) =>
+                        makeIndentWithKey($status, $depth, $key) . ': ' . $iter($value, $depth + 1),
+                    array_keys($values), $values);
+            };
+            return implode("\n", $lines);
+        } else {
             return $current;
         }
-        echo "объект - \n";
-        var_dump($current);
-        $key = $current['key'];
-        echo "ключ: $key\n";
-        if ($current['children']) {
-            $preparedChildren = array_map(fn($child) => $iter($child, $depth + 1), $current['children']);
-            $lines = ["{", ...$preparedChildren, "}"];
-            return makeIndentWithKey('same', $depth, $key) . ': ' . implode("\n", $lines);
-        }
-        $values = getValues($current);
-        $status = array_key_exists('status', $current) ? $current['status'] : $current['same'];
-        $indents = $status === 'changed' ? ['old', 'added'] : [$status];
-        $lines = array_map(
-            fn($indent, $value) =>
-                makeIndentWithKey($indent, $depth, $key) . ': ' . $iter($value, $depth + 1),
-            $indents, $values);
-        return implode("\n", $lines);
     };
     $diffBody = array_reduce(
         $diffObject, fn($acc, $leaf) => array_merge($acc, [$iter($leaf, 1)]),
         []
     );
     $result = ["{", ...$diffBody, "}"];
+    
     return implode("\n", $result);
     
 }
