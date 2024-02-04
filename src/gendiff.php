@@ -10,7 +10,7 @@ function genDiff(string $file1, string $file2)
     $firstFile = parse($file1);
     $secondFile = parse($file2);
     $diffObject = showDiff(toString($firstFile), toString($secondFile));
-    return stylish($diffObject);
+    print_r(stylish($diffObject));die;
 }
 
 function showDiff($file1, $file2)
@@ -22,22 +22,21 @@ function showDiff($file1, $file2)
         $map,
         function ($acc, $key) use ($file1, $file2) {
             switch (true) {
-                case (array_key_exists($key, $file1) && array_key_exists($key, $file2)):
-                    if (is_array($file1[$key]) && (is_array($file2[$key]))) {
-                        $data = buildNode('nested', $key, null, null, showDiff($file1[$key], $file2[$key]));
-                    }
-                    elseif ($file1[$key] === $file2[$key]) {
-                        $data = buildNode('same', $key, $file1[$key]);
-                    } else {
-                        $data = buildNode('changed', $key, $file1[$key], $file2[$key]); //два значения
-                    }
-                    break;
-                case array_key_exists($key, $file1):
-                    $data = buildNode('old', $key, $file1[$key]); //только старое
-                    break;
-                case array_key_exists($key, $file2):
-                    $data = buildNode('added', $key, null, $file2[$key]); //только новое
-                    break;
+            case (array_key_exists($key, $file1) && array_key_exists($key, $file2)):
+                if (is_array($file1[$key]) && (is_array($file2[$key]))) {
+                    $data = buildNode('nested', $key, null, null, showDiff($file1[$key], $file2[$key]));
+                } elseif ($file1[$key] === $file2[$key]) {
+                    $data = buildNode('same', $key, $file1[$key]);
+                } else {
+                    $data = buildNode('changed', $key, $file1[$key], $file2[$key]); //два значения
+                }
+                break;
+            case array_key_exists($key, $file1):
+                $data = buildNode('old', $key, $file1[$key]); //только старое
+                break;
+            case array_key_exists($key, $file2):
+                $data = buildNode('added', $key, null, $file2[$key]); //только новое
+                break;
             }
             $acc[] = $data;
             return $acc;
