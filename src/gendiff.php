@@ -10,7 +10,7 @@ function genDiff(string $file1, string $file2)
     $firstFile = parse($file1);
     $secondFile = parse($file2);
     $diffObject = showDiff(toString($firstFile), toString($secondFile));
-    print_r(stylish($diffObject));die;
+    return stylish($diffObject);
 }
 
 function showDiff($file1, $file2)

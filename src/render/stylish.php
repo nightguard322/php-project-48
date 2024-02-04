@@ -63,18 +63,38 @@ function stylish($diffObject)
             // );
         };
     };
-    return array_reduce(
+    $result = array_reduce(
         $diffObject, fn($acc, $leaf) => array_merge($acc, [$iter($leaf, 1)]),
         []
     );
+    return render($result);
     
 }
+function render(mixed $diffObject)
+{
+    $iter = function ($current, $depth) use (&$iter) {
+        if (is_array($current)) {
+            $currentSpace = str_repeat(SPACE, INDENTCOUNT * $depth);
+            $key = array_keys($current)[0];
+            $preparedChildren = array_map(fn($child) => $iter($child, $depth * 2), $current);
+            $closetBracket = "{$currentSpace}}";
+            $lines = ['{', ...$preparedChildren, $closetBracket];
+            return "{$currentSpace}{$key}: " . implode("\n", $lines);
+        }
+            return $current;
+    };
+    $lines = array_map(fn($child) => $iter($child, 1), $diffObject);
+    print_r($lines);die;
+    // return implode("\n", ['{', ...$lines, '}']);
+    return 1;
+}
+
 function makeIndentWithKey($status, $key)
 {
     $indentList = [
         'old' => '- ',
         'added' => '+ ',
-        'same' => str_repeat(SPACE, 2)
+        'same' => ''
     ];
     $indent = $indentList[$status];
     return "{$indent}{$key}";
