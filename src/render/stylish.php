@@ -13,7 +13,8 @@ function stylish($diffObject)
             $currentKey = $current['key'];
             if ($current['children']) {
                 $preparedChildren = array_map(fn($child) => $iter($child), $current['children']);
-                return [makeIndentWithKey('same', $currentKey) => $preparedChildren];
+                $newChildren = array_reduce($preparedChildren, fn($acc, $child) => array_merge($acc, $child), []);
+                return [makeIndentWithKey('same', $currentKey) => $newChildren];
             }
             $indents = $current['status'] === 'changed' ? ['old', 'added'] : [$current['status']]; //nest => [key => value], nest => str, children => null, status => changed
             //values = [[$key => $value], str]
@@ -73,18 +74,24 @@ function stylish($diffObject)
 function render(mixed $diffObject)
 {
     $iter = function ($current, $depth) use (&$iter) {
+        //var_dump($current);die;
         if (is_array($current)) {
             $currentSpace = str_repeat(SPACE, INDENTCOUNT * $depth);
-            $key = array_keys($current)[0];
-            $preparedChildren = array_map(fn($child) => $iter($child, $depth * 2), $current);
+            $preparedChildren = array_map(fn($child) => $iter($child, $depth * 2), $current); //вывод ребенка [0 => ключ: значение, 1 => ключ: значение]
+            $test = array_map(fn($key, $childTest) => "{$key}: {$childTest}", array_keys($current), $current);
+            var_dump($test);
             $closetBracket = "{$currentSpace}}";
             $lines = ['{', ...$preparedChildren, $closetBracket];
-            return "{$currentSpace}{$key}: " . implode("\n", $lines);
+                //var_dump($key, $lines);
+            //$result = "{$currentSpace}{$key} - тут ключ: " . implode("\n", $lines);
+            //return $result;
         }
             return $current;
     };
     $lines = array_map(fn($child) => $iter($child, 1), $diffObject);
-    print_r($lines);die;
+    // print_r($diffObject);die;
+    // print_r($lines);
+    die;
     // return implode("\n", ['{', ...$lines, '}']);
     return 1;
 }
