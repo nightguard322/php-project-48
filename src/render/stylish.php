@@ -8,21 +8,31 @@ const SPACE = ' ';
 function stylish($diffObject)
 {
     $iter = function ($current) use (&$iter) {
-        if (is_array($current) && array_key_exists('status', $current)) {
-            $values = getValues($current);
-            $currentKey = $current['key'];
+        if (is_array($current)) {
+            $currentKeys = getKey($current);
             if ($current['children']) {
-                $preparedChildren = array_map(fn($child) => $iter($child), $current['children']);
-                $newChildren = array_reduce($preparedChildren, fn($acc, $child) => array_merge($acc, $child), []);
-                $result = [makeIndentWithKey('same', $currentKey) => $newChildren];
-                return $result;
+                $children = array_map(
+                    fn($child) => 
+                    $iter($child),
+                    $current['children']
+                );
+                $preparedChilren = array_reduce($children, fn($acc, $child) => array_merge($acc, $child), []);
+                return array_map(fn($currentKey) => ['none', $currentKey, $preparedChilren], $currentKeys);
             }
-            $indents = $current['status'] === 'changed' ? ['old', 'added'] : [$current['status']];
-            $lines = [];
-            for ($i = 0, $max = count($values); $i < $max; $i++) {
-                $key = makeIndentWithKey($indents[$i], $currentKey);
-                $lines[$key] = $iter($values[$i]);
-            }
+            $currentValues = getValues($current);
+            $currentStatus = array_key_exists('status', $current) ?
+            $current['status'] 
+            :
+            'nested';
+            $indents = $currentStatus === 'changed' ? ['old', 'added'] : [$currentStatus];
+            
+            $lines = array_map(
+                fn($indent, $currentKey, $child) => 
+                    [$indent, $currentKey, $iter($child)],
+                $indents,
+                $currentKeys,
+                $currentValues
+            );
             return $lines;
         } else {
             return $current;
@@ -30,7 +40,7 @@ function stylish($diffObject)
     };
     $result = array_reduce(
         $diffObject, fn($acc, $leaf) => array_merge($acc, $iter($leaf, 1)),
-        []
+        [] 
     );
     return render($result);  
 }
@@ -39,40 +49,54 @@ function render(mixed $diffObject)
 {
     $iter = function ($current, $depth) use (&$iter) {
         if (is_array($current)) {
-            $currentIndentWidth = INDENTCOUNT * $depth;
-            $currentSpace = str_repeat(SPACE, $currentIndentWidth);
-            $closingBracket = str_repeat(SPACE, $currentIndentWidth - INDENTCOUNT);
-            $lines = array_map(fn($key, $child) => "{$currentSpace}{$key}: {$iter($child, $depth + 1)}", array_keys($current), $current);
-            $preparedLines = ['{', ...$lines, "{$closingBracket}}"];
-            return implode("\n", $preparedLines);
+            $currentSpaceLenght = INDENTCOUNT * $depth;
+            $lines = array_map(
+                function ($child) use ($iter, $currentSpaceLenght, $depth) {
+                    [$status, $key, $value] = $child;
+                    $currentIndent = makeIndentWithKey($status, $currentSpaceLenght);
+                    $currentValue = $iter($value, $depth + 1);
+                    $currentValueIndent = $currentValue ? SPACE : '';
+                    $res = "{$currentIndent}{$key}:{$currentValueIndent}{$currentValue}";
+                    return $res;
+                }, 
+                $current
+            );
+            $closingBracketIndent = str_repeat(SPACE, $currentSpaceLenght - INDENTCOUNT);
+            $preparedLines = ['{', ...$lines, "{$closingBracketIndent}}"];
+            $result = implode("\n", $preparedLines);
+            return $result;
         }
             return $current;
     };
-    $result = $iter($diffObject, 1);
-    return $result;
+    $res = $iter($diffObject, 1);
+    return $res;
 }
 
-function makeIndentWithKey($status, $key)
+function makeIndentWithKey($status, $currentSpaceLenght)
 {
     $indentList = [
         'old' => '- ',
         'added' => '+ ',
-        'same' => '  '
+        'same' => ' ',
+        'nested' => ''
     ];
     $indent = $indentList[$status];
-    return "{$indent}{$key}";
+    $statusLenght = strlen($indent);
+    $currentSpace = str_repeat(SPACE, $currentSpaceLenght - $statusLenght);
+    return "{$currentSpace}{$indent}";
 }
-// function makeIndentWithKey($status, $depth, $key)
-// {
-//     $indentList = [
-//         'old' => '- ',
-//         'added' => '+ ',
-//         'same' => str_repeat(SPACE, 2)
-//     ];
-//     $indent = $indentList[$status];
-//     $currentSpaces = str_repeat(SPACE, (($depth * INDENTCOUNT) - 2));
-//     return "{$currentSpaces}{$indent}{$key}";
-// }
+
+function getKey($object) 
+{
+    if (array_key_exists('nodeKey', $object)) {
+        return $object['status'] === 'changed' ?
+        [$object['nodeKey'] , $object['nodeKey']] 
+        :
+        [$object['nodeKey']];
+    }
+    return array_keys($object);
+}
+
 function getValues($diffObject)
 {
     switch ($diffObject['status']) {
@@ -83,7 +107,11 @@ function getValues($diffObject)
     case 'changed':
         return [$diffObject['old'], $diffObject['added']];
     default:
-        return $diffObject;
+        return array_values($diffObject);
     }
 }
 
+function toString($value)
+{
+    return trim(var_export($value, true), "'");
+}

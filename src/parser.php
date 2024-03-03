@@ -7,14 +7,11 @@ use Symfony\Component\Yaml\Yaml;
 
 function yamlToArray($parsed): array
 {
-    $parsed = (array) $parsed;
-    foreach ($parsed as $key => $value) {
-        if (is_object($value)) {
-            return yamlToArray($value);
-        }
-        $parsed[$key] = $value;
-    }
-    return $parsed;
+    return array_map(
+        fn($file) => 
+        is_object($file) ? yamlToArray($file) : $file,
+        (array) $parsed
+    );
 }
 
 function parse(string $path)

@@ -14,8 +14,8 @@ class GendiffTest extends TestCase
   {
       // $expected = file_get_contents(__DIR__ . '/fixtures/resultWithNested.txt');
       $expected = file_get_contents(__DIR__ . '/fixtures/resultWithNested.txt');
-      $before = __DIR__ . '/fixtures/beforeWithNested.json';
-      $after = __DIR__ . '/fixtures/afterWithNested.json';
+      $before = __DIR__ . '/fixtures/beforeWithNested.yml';
+      $after = __DIR__ . '/fixtures/afterWithNested.yml';
       $this->assertEquals($expected, genDiff($before, $after));
   }
 

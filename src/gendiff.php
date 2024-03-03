@@ -51,7 +51,7 @@ function buildNode(string $status, $key, $oldValue, $newValue = null, $children 
 {
     $node = [
         'status' => $status,
-        'key' => $key,
+        'nodeKey' => $key,
         'old' => $oldValue,
         'added' => $newValue,
         'children' => $children
