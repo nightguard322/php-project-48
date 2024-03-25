@@ -45,32 +45,32 @@ function stylish($diffObject)
     return render($result);  
 }
 
-function render(mixed $diffObject)
-{
-    $iter = function ($current, $depth) use (&$iter) {
-        if (is_array($current)) {
-            $currentSpaceLenght = INDENTCOUNT * $depth;
-            $lines = array_map(
-                function ($child) use ($iter, $currentSpaceLenght, $depth) {
-                    [$status, $key, $value] = $child;
-                    $currentIndent = makeIndentWithKey($status, $currentSpaceLenght);
-                    $currentValue = $iter($value, $depth + 1);
-                    $currentValueIndent = $currentValue ? SPACE : '';
-                    $res = "{$currentIndent}{$key}:{$currentValueIndent}{$currentValue}";
-                    return $res;
-                }, 
-                $current
-            );
-            $closingBracketIndent = str_repeat(SPACE, $currentSpaceLenght - INDENTCOUNT);
-            $preparedLines = ['{', ...$lines, "{$closingBracketIndent}}"];
-            $result = implode("\n", $preparedLines);
-            return $result;
-        }
-            return $current;
-    };
-    $res = $iter($diffObject, 1);
-    return $res;
-}
+// function render(mixed $diffObject)
+// {
+//     $iter = function ($current, $depth) use (&$iter) {
+//         if (is_array($current)) {
+//             $currentSpaceLenght = INDENTCOUNT * $depth;
+//             $lines = array_map(
+//                 function ($child) use ($iter, $currentSpaceLenght, $depth) {
+//                     [$status, $key, $value] = $child;
+//                     $currentIndent = makeIndentWithKey($status, $currentSpaceLenght);
+//                     $currentValue = $iter($value, $depth + 1);
+//                     $currentValueIndent = $currentValue ? SPACE : '';
+//                     $res = "{$currentIndent}{$key}:{$currentValueIndent}{$currentValue}";
+//                     return $res;
+//                 }, 
+//                 $current
+//             );
+//             $closingBracketIndent = str_repeat(SPACE, $currentSpaceLenght - INDENTCOUNT);
+//             $preparedLines = ['{', ...$lines, "{$closingBracketIndent}}"];
+//             $result = implode("\n", $preparedLines);
+//             return $result;
+//         }
+//             return $current;
+//     };
+//     $res = $iter($diffObject, 1);
+//     return $res;
+// }
 
 function makeIndentWithKey($status, $currentSpaceLenght)
 {
@@ -111,7 +111,7 @@ function getValues($diffObject)
     }
 }
 
-function toString($value)
-{
-    return trim(var_export($value, true), "'");
-}
+// function toString($value)
+// {
+//     return trim(var_export($value, true), "'");
+// }
