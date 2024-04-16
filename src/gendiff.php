@@ -2,18 +2,18 @@
 
 namespace Hexlet\P2;
 
+use Exception;
+
 use function Hexlet\P2\parse;
 use function Hexlet\P2\Render\stylish;
 use function Hexlet\P2\Render\plain;
 
-function genDiff(string $file1, string $file2)
+function genDiff(string $file1, string $file2, string $format)
 {
     $firstFile = parse($file1);
     $secondFile = parse($file2);
     $diffObject = showDiff($firstFile, $secondFile);
-    //var_dump(plain($diffObject));
-    // return plain($diffObject);
-    return stylish($diffObject);
+    return getFormat($format, $diffObject);
 }
 
 function showDiff($file1, $file2)
@@ -62,10 +62,16 @@ function buildNode(string $status, $key, $oldValue, $newValue = null, $children 
     return $node;
 }
 
-// function toString($value)
-// {
-//     if (is_array($value)) 
-//         return array_map(fn($current) => toString($current), $value);
-//     return is_null($value) ? 'null' : trim(var_export($value, true), "'");
-// }
-//With windows env
+function getFormat($format, $diffObject)
+{
+    switch($format) {
+    case 'stylish':
+        return stylish($diffObject);
+        break;
+    case 'plain':
+        return plain($diffObject);
+        break;
+    default:
+        throw new Exception('wrong format');
+    }
+}

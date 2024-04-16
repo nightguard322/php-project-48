@@ -2,6 +2,20 @@
 
 namespace Hexlet\P2\Render;
 
+function toString($value)
+{
+    switch(gettype($value)) {
+    case 'boolean':
+        return $value ? 'true' : 'false';
+    case 'NULL':
+        return 'null';
+    case 'string':
+    case 'int':
+    default:
+        return $value;
+    }
+}
+
 function flatten($node, $line = [])
 {
     return array_reduce(
@@ -11,13 +25,13 @@ function flatten($node, $line = [])
         $line
     );
 };
-function render(array $diff, bool $plain= true)
+function render(array $diff, bool $plain = true)
 {
     if ($plain) {
         $line = flatten($diff, []);
     } else {
         $line = ["{", ...$diff, "}"];
     }
-    
+    die;
     return implode("\n", $line);
 }
