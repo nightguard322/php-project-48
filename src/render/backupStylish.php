@@ -13,34 +13,40 @@ function stylish($diffObject)
     $diff = function($current, $depth) use (&$diff) {
         if (is_array($current)) {
             $currentKey = getKey($current);
+            // $prepare = function($value) => is(array($value) ? )
             $currentStatus = $current['status'] ?? 'none';
             switch($current['status']) {
                 case 'nested':
                     $children = array_map(
-                        fn($child) => $diff($child, $depth + 1),
+                        fn($child) => $diff($child, $depth * 2),
                         $current['children']
                     );
-                    $prepared = flatten($children);
-                    return prepareLine($depth, $currentKey, $prepared, 'same');
+                    // $value = flatten($children);
+                    $prepared = implode(PHP_EOL, flatten($children));
+                    // $value = flatten($children);
                     break;
                 case 'old':
                 case 'added':
-                    $value = $current[$currentStatus];
+                    $value = $current[$currentStatus]; //строка  или обычный массив
                     break;
                 case 'changed':
                     $resChanged = array_map(
                         fn($value, $status) => getLine($depth, $currentKey, $value, $status),
                         [$current['old'], $current['added']], ['old', 'added']);
                         return $resChanged;
+                        //массив вида [-oldkey:oldValue,  +newkey:newValue] - готовая строка
                     break;
+                    //но не как у children
                 case 'same':
-                    $value = $current['old'];
+                    $value = $current['old']; //строка или массив
                     break;
                 default:
-                    $value = array_values($current);
+                    $value = array_values($current); //массив
                     break;
                 }
-                return getLine($depth, $currentKey, $value, $currentStatus);
+                $value = is_array($value) ? array_map(fn($key) => "$key")
+                $res =  getLine($depth, $currentKey, $value, $currentStatus);
+                return $res;
         }
         return $current;
             /*
@@ -56,8 +62,10 @@ function stylish($diffObject)
             */
     };
     $array = array_map(fn($node) => $diff($node, 1), $diffObject);
-    return render($array, false);
+    var_dump(render($array));
+    die;
     
+        //В конце возврат элемента общего массива в виде строки
 
                         /*
                         Значения:
@@ -109,36 +117,50 @@ function stylish($diffObject)
                             
            
 }
-function getLine($depth, $key, $value, $status = 'same') 
+function getLine($depth, $key, $value, $status = 'same' ) 
 {
-    $newValue = $value;
-    if (is_array($value)) {
-        $newValue = array_map(
-            fn($nodeKey) => getLine($depth + 1, $nodeKey, $value[$nodeKey]),
-            array_keys($value)); 
-        }
-        return prepareLine($depth, $key, $newValue, $status);
-    }
-
-function prepareLine($depth, $key, $value, $status)
-{
-    $statusList = [
+    $indentList = [
         'old' => '- ',
         'added' => '+ ',
         'same' => ' ',
         'none' => ''
     ];
-    $currentStatus = $statusList[$status];
-    $indentSpace = $depth * INDENTCOUNT;
-    $currentSpace = str_repeat(SPACE, $indentSpace - strlen($currentStatus));
-    $bracketSpace = str_repeat(SPACE, $indentSpace);
+    $indent = $indentList[$status];
+    $spaces = $depth * INDENTCOUNT;
+    $currentSpace = str_repeat(SPACE, $spaces - strlen($indent));
+    if (is_array($value)) { //значение превратить в ключ + значение
+        $options = array_map(
+            fn($nodeKey) => getLine($depth *2, $nodeKey, $value[$nodeKey]),
+            array_keys($value)); 
+        $lines = implode(PHP_EOL, ['{', ...$options, "{$currentSpace}}"]);
+        return "{$currentSpace}{$indent}{$key}: {$lines}";
+        }
+        $value = toStringStylish($value);
+        return "{$currentSpace}{$indent}{$key}: {$value}";
+    }
+
+function prepareLine($depth, $key, $value, $status = 'same')
+{
     if (is_array($value)) {
-        $lines = implode(PHP_EOL, ['{', ...$value, "{$bracketSpace}}"]);
-        return "{$currentSpace}{$currentStatus}{$key}: {$lines}";
+        $lines = implode(PHP_EOL, ['{', ...$value, "{$currentSpace}}"]);
+        return "{$currentSpace}{$indent}{$key}: {$lines}";
     }
     $value = toStringStylish($value);
-    $separator = empty($value) ? '' : SPACE;
-    return "{$currentSpace}{$currentStatus}{$key}:{$separator}{$value}";
+    return "{$currentSpace}{$indent}{$key}: {$value}";
+}
+
+function makeIndentWithKey($status, $currentSpaceLenght)
+{
+    $indentList = [
+        'old' => '- ',
+        'added' => '+ ',
+        'same' => ' ',
+        'nested' => ''
+    ];
+    $indent = $indentList[$status];
+    $statusLenght = strlen($indent);
+    $currentSpace = str_repeat(SPACE, $currentSpaceLenght - $statusLenght);
+    return "{$currentSpace}{$indent}";
 }
 
 function getKey($object) 
@@ -158,7 +180,12 @@ function toStringStylish($value)
             return 'null';
         case 'string':
         case 'int':
+            return trim(var_export($value, true), "'");
         default:
             return $value;
     }
 }
+/*
+
+На выходе массив типа 0 => пробел знак ключ: значение
+*/

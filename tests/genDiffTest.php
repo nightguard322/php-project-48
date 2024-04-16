@@ -13,7 +13,7 @@ class GendiffTest extends TestCase
   public function testGendiff()
   {
       // $expected = file_get_contents(__DIR__ . '/fixtures/resultWithNested.txt');
-      $expected = file_get_contents(__DIR__ . '/fixtures/resultPlain.txt');
+      $expected = file_get_contents(__DIR__ . '/fixtures/resultStylish.txt');
       $before = __DIR__ . '/fixtures/beforeWithNested.yml';
       $after = __DIR__ . '/fixtures/afterWithNested.yml';
       $this->assertEquals($expected, genDiff($before, $after));

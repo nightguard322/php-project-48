@@ -3,7 +3,7 @@
 namespace Hexlet\P2;
 
 use function Hexlet\P2\parse;
-//use function Hexlet\P2\Render\stylish;
+use function Hexlet\P2\Render\stylish;
 use function Hexlet\P2\Render\plain;
 
 function genDiff(string $file1, string $file2)
@@ -12,7 +12,8 @@ function genDiff(string $file1, string $file2)
     $secondFile = parse($file2);
     $diffObject = showDiff($firstFile, $secondFile);
     //var_dump(plain($diffObject));
-    return plain($diffObject);
+    // return plain($diffObject);
+    return stylish($diffObject);
 }
 
 function showDiff($file1, $file2)
