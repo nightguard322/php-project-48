@@ -29,11 +29,11 @@ function stylish($diffObject)
                 $value = $current[$currentStatus];
                 break;
             case 'changed':
-                $resChanged = array_map(
-                    fn($value, $status) => getLine($depth, $currentKey, $value, $status),
-                    [$current['old'], $current['added']], ['old', 'added']
+                return implode(PHP_EOL, [
+                    getLine($depth, $currentKey, $current['old'], 'old'),
+                    getLine($depth, $currentKey, $current['added'], 'added')
+                    ]
                 );
-                return $resChanged;
                 break;
             case 'same':
                 $value = $current['old'];
@@ -47,7 +47,6 @@ function stylish($diffObject)
         return $current;
     };
     $array = array_map(fn($node) => $diff($node, 1), $diffObject);
-    var_dump($diffObject);
     return render($array, false);
      
 }
@@ -60,7 +59,7 @@ function getLine($depth, $key, $value, $status = 'same')
             array_keys($value)
         ); 
     }
-        return prepareLine($depth, $key, $newValue, $status);
+    return prepareLine($depth, $key, $newValue, $status);
 }
 
 function prepareLine($depth, $key, $value, $status)

@@ -32,6 +32,5 @@ function render(array $diff, bool $plain = true)
     } else {
         $line = ["{", ...$diff, "}"];
     }
-    die;
     return implode("\n", $line);
 }

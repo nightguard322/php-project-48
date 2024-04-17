@@ -8,7 +8,7 @@ use function Hexlet\P2\parse;
 use function Hexlet\P2\Render\stylish;
 use function Hexlet\P2\Render\plain;
 
-function genDiff(string $file1, string $file2, string $format)
+function genDiff(string $file1, string $file2, string $format = 'stylish')
 {
     $firstFile = parse($file1);
     $secondFile = parse($file2);

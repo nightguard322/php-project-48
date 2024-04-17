@@ -8,7 +8,7 @@
             "Hexlet\\P2\\Tests\\": "tests/"
         },
         "files": [
-            "src/render/render.php",
+            "src/render/models.php",
             "src/render/plain.php",
             "src/render/stylish.php",
             "src/parser.php",
