@@ -21,8 +21,7 @@ function stylish($diffObject)
                     fn($child) => $diff($child, $depth + 1),
                     $current['children']
                 );
-                $prepared = flatten($children);
-                return prepareLine($depth, $currentKey, $prepared, 'same');
+                return prepareLine($depth, $currentKey, flatten($children), 'same');
                 break;
             case 'old':
             case 'added':
@@ -47,6 +46,7 @@ function stylish($diffObject)
         return $current;
     };
     $array = array_map(fn($node) => $diff($node, 1), $diffObject);
+    var_dump($array);
     return render($array, false);
      
 }

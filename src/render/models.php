@@ -16,12 +16,17 @@ function toString($value)
     }
 }
 
+
 function flatten($node, $line = [])
 {
     return array_reduce(
-        $node,
-        fn($acc, $leaf) => 
-            is_array($leaf) ? flatten($leaf, $acc) : array_merge($acc, [$leaf]),
+        array_keys($node),
+        fn($acc, $key) => 
+            is_array($node[$key]) 
+            ?
+            flatten($node[$key], $acc) 
+            :
+            array_merge($acc, [$key => $node[$key]]),
         $line
     );
 };

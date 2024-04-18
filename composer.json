@@ -11,6 +11,7 @@
             "src/render/models.php",
             "src/render/plain.php",
             "src/render/stylish.php",
+            "src/render/json.php",
             "src/parser.php",
             "src/gendiff.php"
         ]

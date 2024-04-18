@@ -7,6 +7,7 @@ use Exception;
 use function Hexlet\P2\parse;
 use function Hexlet\P2\Render\stylish;
 use function Hexlet\P2\Render\plain;
+use function Hexlet\P2\Render\json;
 
 function genDiff(string $file1, string $file2, string $format = 'stylish')
 {
@@ -70,6 +71,9 @@ function getFormat($format, $diffObject)
         break;
     case 'plain':
         return plain($diffObject);
+        break;
+    case 'json':
+        return json($diffObject);
         break;
     default:
         throw new Exception('wrong format');
