@@ -9,11 +9,12 @@
         },
         "files": [
             "src/differ/models.php",
-            "src/differ/plain.php",
-            "src/differ/stylish.php",
-            "src/differ/json.php",
+            "src/formatters/plain.php",
+            "src/formatters/stylish.php",
+            "src/formatters/json.php",
+            "src/formatters.php",
             "src/differ/parser.php",
-            "src/differ/gendiff.php"
+            "src/gendiff.php"
         ]
     },
     "require": {

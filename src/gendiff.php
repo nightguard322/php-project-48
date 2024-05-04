@@ -5,9 +5,7 @@ namespace Differ\Differ;
 use Exception;
 
 use function Differ\Differ\parse;
-use function Differ\Differ\Stylish;
-use function Differ\Differ\plain;
-use function Differ\Differ\json;
+use function Differ\Differ\getFormat;
 
 function genDiff(string $file1, string $file2, string $format = 'stylish')
 {
@@ -63,19 +61,3 @@ function buildNode(string $status, $key, $oldValue, $newValue = null, $children 
     return $node;
 }
 
-function getFormat($format, $diffObject)
-{
-    switch ($format) {
-        case 'stylish':
-            return stylish($diffObject);
-            break;
-        case 'plain':
-            return plain($diffObject);
-            break;
-        case 'json':
-            return json($diffObject);
-            break;
-        default:
-            throw new Exception('Wrong format');
-    }
-}
