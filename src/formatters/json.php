@@ -2,7 +2,7 @@
 
 namespace Differ\Differ;
 
-function json($ast)
+function json(array $ast)
 {
     return json_encode($ast);
 }

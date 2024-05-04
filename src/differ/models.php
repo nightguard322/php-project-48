@@ -14,12 +14,13 @@ function toString(mixed $value, bool $plain = true)
         case 'string':
             return $plain ? "'{$value}'" : $value;
         case 'int':
+            return $value;
         default:
             return $value;
     }
 }
 
-function flatten($node, $line = [])
+function flatten(array $node, array $line = [])
 {
     return array_reduce(
         array_keys($node),

@@ -5,7 +5,7 @@ namespace Differ\Differ;
 use Exception;
 use Symfony\Component\Yaml\Yaml;
 
-function yamlToArray($parsed): array
+function yamlToArray(mixed $parsed): array
 {
     return array_map(
         fn($file) =>
@@ -19,17 +19,20 @@ function parse(string $path)
     if (is_file($path)) {
         $pathinfo = pathinfo($path);
         $file = file_get_contents($path);
+        if (!$file) { //!!!!!
+            throw new Exception('file not found');
+        }
     } else {
         throw new Exception($path);
     }
-    switch ($pathinfo['extension']) {
+    $extension = $pathinfo['extension'];
+    switch ($extension) {
         case 'json':
             return json_decode($file, true);
-            break;
-        case 'yml' || 'yaml':
+        case 'yml':
+        case 'yaml':
             $yaml = Yaml::parse($file, Yaml::PARSE_OBJECT_FOR_MAP);
             return yamlToArray($yaml);
-            break;
         default:
             throw new Exception('Wrong Extension');
     }

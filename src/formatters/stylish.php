@@ -8,7 +8,7 @@ const SPACE = ' ';
 use function Differ\Differ\flatten;
 use function Differ\Differ\toString;
 
-function stylish($diffObject)
+function stylish(array $diffObject)
 {
     $diff = function ($current, $depth) use (&$diff) {
         if (is_array($current)) {
@@ -21,7 +21,6 @@ function stylish($diffObject)
                         $current['children']
                     );
                     return prepareLine($depth, $currentKey, flatten($children), 'same');
-                    break;
                 case 'old':
                 case 'added':
                     $value = $current[$currentStatus];
@@ -34,7 +33,6 @@ function stylish($diffObject)
                         getLine($depth, $currentKey, $current['added'], 'added')
                         ]
                     );
-                    break;
                 case 'same':
                     $value = $current['old'];
                     break;
@@ -49,7 +47,7 @@ function stylish($diffObject)
     return render($array, false);
 }
 
-function getLine($depth, $key, $value, $status = 'same')
+function getLine(int $depth, string $key, mixed $value, string $status = 'same')
 {
     $newValue = $value;
     if (is_array($value)) {
@@ -61,7 +59,7 @@ function getLine($depth, $key, $value, $status = 'same')
     return prepareLine($depth, $key, $newValue, $status);
 }
 
-function prepareLine($depth, $key, $value, $status)
+function prepareLine(int $depth, string $key, mixed $value, string $status)
 {
     $statusList = [
         'old' => '- ',
@@ -78,6 +76,5 @@ function prepareLine($depth, $key, $value, $status)
         return "{$currentSpace}{$currentStatus}{$key}: {$lines}";
     }
     $value = toString($value, false);
-    // $separator = empty($value) ? '' : SPACE;
     return "{$currentSpace}{$currentStatus}{$key}: {$value}";
 }

@@ -15,11 +15,11 @@ function genDiff(string $file1, string $file2, string $format = 'stylish')
     return getFormat($format, $ast);
 }
 
-function makeAst($file1, $file2)
+function makeAst(array $file1, array $file2)
 {
     $keys = array_merge(array_keys($file1), array_keys($file2));
     $map = array_unique($keys);
-    sort($map);
+    $sort = sort($map);//!!!!
     $difference = array_reduce(
         $map,
         function ($acc, $key) use ($file1, $file2) {
@@ -49,7 +49,7 @@ function makeAst($file1, $file2)
     // return "{\n" . implode("\n", $difference) . "\n}";
 }
 
-function buildNode(string $status, $key, $oldValue, $newValue = null, $children = null)
+function buildNode(string $status, string $key, mixed $oldValue, mixed $newValue = null, array $children = null)
 {
     $node = [
         'status' => $status,
