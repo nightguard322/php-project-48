@@ -60,4 +60,3 @@ function buildNode(string $status, $key, $oldValue, $newValue = null, $children 
     ];
     return $node;
 }
-

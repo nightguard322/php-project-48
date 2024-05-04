@@ -1,6 +1,7 @@
 <?php
 
 namespace Differ\Differ;
+
 use Exception;
 
 use function Differ\Differ\stylish;
