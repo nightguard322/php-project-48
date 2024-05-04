@@ -15,32 +15,32 @@ function stylish($diffObject)
         if (is_array($current)) {
             $currentKey = $current['nodeKey'] ?? array_key_first($current);
             $currentStatus = $current['status'] ?? 'none';
-            switch($current['status']) {
-            case 'nested':
-                $children = array_map(
-                    fn($child) => $diff($child, $depth + 1),
-                    $current['children']
-                );
-                return prepareLine($depth, $currentKey, flatten($children), 'same');
-                break;
-            case 'old':
-            case 'added':
-                $value = $current[$currentStatus];
-                break;
-            case 'changed':
-                return implode(
-                    PHP_EOL, 
-                    [
-                    getLine($depth, $currentKey, $current['old'], 'old'),
-                    getLine($depth, $currentKey, $current['added'], 'added')
-                    ]
-                );
-                break;
-            case 'same':
-                $value = $current['old'];
-                break;
-            default:
-                $value = array_values($current);
+            switch ($current['status']) {
+                case 'nested':
+                    $children = array_map(
+                        fn($child) => $diff($child, $depth + 1),
+                        $current['children']
+                    );
+                    return prepareLine($depth, $currentKey, flatten($children), 'same');
+                    break;
+                case 'old':
+                case 'added':
+                    $value = $current[$currentStatus];
+                    break;
+                case 'changed':
+                    return implode(
+                        PHP_EOL,
+                        [
+                        getLine($depth, $currentKey, $current['old'], 'old'),
+                        getLine($depth, $currentKey, $current['added'], 'added')
+                        ]
+                    );
+                    break;
+                case 'same':
+                    $value = $current['old'];
+                    break;
+                default:
+                    $value = array_values($current);
             }
                 return getLine($depth, $currentKey, $value, $currentStatus);
         }
@@ -48,16 +48,16 @@ function stylish($diffObject)
     };
     $array = array_map(fn($node) => $diff($node, 1), $diffObject);
     return render($array, false);
-     
 }
-function getLine($depth, $key, $value, $status = 'same') 
+
+function getLine($depth, $key, $value, $status = 'same')
 {
     $newValue = $value;
     if (is_array($value)) {
         $newValue = array_map(
             fn($nodeKey) => getLine($depth + 1, $nodeKey, $value[$nodeKey]),
             array_keys($value)
-        ); 
+        );
     }
     return prepareLine($depth, $key, $newValue, $status);
 }
@@ -82,4 +82,3 @@ function prepareLine($depth, $key, $value, $status)
     $separator = empty($value) ? '' : SPACE;
     return "{$currentSpace}{$currentStatus}{$key}:{$separator}{$value}";
 }
-

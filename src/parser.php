@@ -8,7 +8,7 @@ use Symfony\Component\Yaml\Yaml;
 function yamlToArray($parsed): array
 {
     return array_map(
-        fn($file) => 
+        fn($file) =>
         is_object($file) ? yamlToArray($file) : $file,
         (array) $parsed
     );

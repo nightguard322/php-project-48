@@ -6,12 +6,12 @@ use function Hexlet\P2\Render\toString;
 
 function plain(array $diff): string
 {
-    $iter = function($current, $path = '') use (&$iter) {
+    $iter = function ($current, $path = '') use (&$iter) {
         return array_reduce(
             $current,
             function ($acc, $node) use ($path, $iter) {
                 $currentKey = $path === '' ? $node['nodeKey'] : "{$path}.{$node['nodeKey']}";
-                switch($node['status']) {
+                switch ($node['status']) {
                     case 'nested':
                         $line = $iter($node['children'], $currentKey); //[]
                         break;
@@ -25,10 +25,15 @@ function plain(array $diff): string
                         break;
                     case 'changed':
                         $string = "Property %s was updated. From %s to %s";
-                        $line = sprintf($string, toString($currentKey), toString($node['old']), toString($node['added']));
+                        $line = sprintf(
+                            $string,
+                            toString($currentKey),
+                            toString($node['old']),
+                            toString($node['added'])
+                        );
                         break;
                     default:
-                    return $acc;
+                        return $acc;
                 }
                 return array_merge($acc, [$line]);
             },
