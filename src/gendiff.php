@@ -76,6 +76,6 @@ function getFormat($format, $diffObject)
             return json($diffObject);
             break;
         default:
-            throw new Exception('wrong format');
+            throw new Exception('Wrong format');
     }
 }
