@@ -13,7 +13,7 @@
             "src/differ/stylish.php",
             "src/differ/json.php",
             "src/differ/parser.php",
-            "src/gendiff.php"
+            "src/differ/gendiff.php"
         ]
     },
     "require": {
