@@ -1,14 +1,10 @@
 #!/usr/bin/php
 <?php
 
-namespace Hexlet\P2;
+namespace Differ;
 
 require_once __DIR__ . '/../vendor/autoload.php';
-use function Hexlet\P2\showDiff;
-use function Hexlet\P2\getPath;
-
 use Docopt;
-use function Hexlet\P2\parse;
 
 $doc = <<<'DOCOPT'
 Generate diff

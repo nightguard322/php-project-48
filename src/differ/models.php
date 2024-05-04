@@ -1,6 +1,6 @@
 <?php
 
-namespace Hexlet\P2\Render;
+namespace Differ\Differ;
 
 function toString($value)
 {

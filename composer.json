@@ -3,15 +3,16 @@
     "description": "show difference between two files",
     "autoload": {
         "psr-4": {
-            "Differ\\Differ\\Render\\": "src/differ",
+            "Differ\\": "src/",
+            "Differ\\Differ\\": "src/differ",
             "Differ\\Differ\\Tests\\": "tests/"
         },
         "files": [
-            "src/render/models.php",
-            "src/render/plain.php",
-            "src/render/stylish.php",
-            "src/render/json.php",
-            "src/parser.php",
+            "src/differ/models.php",
+            "src/differ/plain.php",
+            "src/differ/stylish.php",
+            "src/differ/json.php",
+            "src/differ/parser.php",
             "src/gendiff.php"
         ]
     },
