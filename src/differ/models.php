@@ -9,6 +9,8 @@ function toString($value)
             return $value ? 'true' : 'false';
         case 'NULL':
             return 'null';
+        case 'array':
+            return '[complex value]';
         case 'string':
         case 'int':
         default:
