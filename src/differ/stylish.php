@@ -78,6 +78,6 @@ function prepareLine($depth, $key, $value, $status)
         return "{$currentSpace}{$currentStatus}{$key}: {$lines}";
     }
     $value = toString($value);
-    $separator = empty($value) ? '' : SPACE;
-    return "{$currentSpace}{$currentStatus}{$key}:{$separator}{$value}";
+    // $separator = empty($value) ? '' : SPACE;
+    return "{$currentSpace}{$currentStatus}{$key}: {$value}";
 }
