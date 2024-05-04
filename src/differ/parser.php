@@ -31,6 +31,6 @@ function parse(string $path)
             return yamlToArray($yaml);
             break;
         default:
-            throw new Exception('Wrong extension');
+            throw new Exception('Wrong Extension');
     }
 }
