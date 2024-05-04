@@ -2,7 +2,7 @@
 
 namespace Differ\Differ;
 
-function toString($value)
+function toString(mixed $value, bool $plain = true)
 {
     switch (gettype($value)) {
         case 'boolean':
@@ -10,8 +10,9 @@ function toString($value)
         case 'NULL':
             return 'null';
         case 'array':
-            return '[complex value]';
+            return $plain ? '[complex value]' : $value;
         case 'string':
+            return $plain ? "'{$value}'" : $value;
         case 'int':
         default:
             return $value;

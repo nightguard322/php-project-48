@@ -77,7 +77,7 @@ function prepareLine($depth, $key, $value, $status)
         $lines = implode(PHP_EOL, ['{', ...$value, "{$bracketSpace}}"]);
         return "{$currentSpace}{$currentStatus}{$key}: {$lines}";
     }
-    $value = toString($value);
+    $value = toString($value, false);
     // $separator = empty($value) ? '' : SPACE;
     return "{$currentSpace}{$currentStatus}{$key}: {$value}";
 }
