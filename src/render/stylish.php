@@ -13,7 +13,7 @@ function stylish($diffObject)
 {
     $diff = function ($current, $depth) use (&$diff) {
         if (is_array($current)) {
-            $currentKey = getKey($current);
+            $currentKey = $current['nodeKey'] ?? array_key_first($current);
             $currentStatus = $current['status'] ?? 'none';
             switch($current['status']) {
             case 'nested':
@@ -28,7 +28,9 @@ function stylish($diffObject)
                 $value = $current[$currentStatus];
                 break;
             case 'changed':
-                return implode(PHP_EOL, [
+                return implode(
+                    PHP_EOL, 
+                    [
                     getLine($depth, $currentKey, $current['old'], 'old'),
                     getLine($depth, $currentKey, $current['added'], 'added')
                     ]
@@ -39,14 +41,12 @@ function stylish($diffObject)
                 break;
             default:
                 $value = array_values($current);
-                break;
             }
                 return getLine($depth, $currentKey, $value, $currentStatus);
         }
         return $current;
     };
     $array = array_map(fn($node) => $diff($node, 1), $diffObject);
-    var_dump($array);
     return render($array, false);
      
 }
@@ -81,13 +81,5 @@ function prepareLine($depth, $key, $value, $status)
     $value = toString($value);
     $separator = empty($value) ? '' : SPACE;
     return "{$currentSpace}{$currentStatus}{$key}:{$separator}{$value}";
-}
-
-function getKey($object) 
-{
-    if (array_key_exists('nodeKey', $object)) {
-        return $object['nodeKey'];
-    }
-    return array_key_first($object);
 }
 

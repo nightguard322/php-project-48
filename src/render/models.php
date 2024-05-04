@@ -16,7 +16,6 @@ function toString($value)
     }
 }
 
-
 function flatten($node, $line = [])
 {
     return array_reduce(

@@ -5,7 +5,7 @@ namespace Hexlet\P2;
 use Exception;
 
 use function Hexlet\P2\parse;
-use function Hexlet\P2\Render\stylish;
+use function Hexlet\P2\Render\Stylish;
 use function Hexlet\P2\Render\plain;
 use function Hexlet\P2\Render\json;
 
@@ -13,11 +13,11 @@ function genDiff(string $file1, string $file2, string $format = 'stylish')
 {
     $firstFile = parse($file1);
     $secondFile = parse($file2);
-    $diffObject = showDiff($firstFile, $secondFile);
-    return getFormat($format, $diffObject);
+    $ast = makeAst($firstFile, $secondFile);
+    return getFormat($format, $ast);
 }
 
-function showDiff($file1, $file2)
+function makeAst($file1, $file2)
 {
     $keys = array_merge(array_keys($file1), array_keys($file2));
     $map = array_unique($keys);
@@ -28,7 +28,7 @@ function showDiff($file1, $file2)
             switch (true) {
             case (array_key_exists($key, $file1) && array_key_exists($key, $file2)):
                 if (is_array($file1[$key]) && (is_array($file2[$key]))) {
-                    $data = buildNode('nested', $key, null, null, showDiff($file1[$key], $file2[$key]));
+                    $data = buildNode('nested', $key, null, null, makeAst($file1[$key], $file2[$key]));
                 } elseif ($file1[$key] === $file2[$key]) {
                     $data = buildNode('same', $key, $file1[$key]);
                 } else {
