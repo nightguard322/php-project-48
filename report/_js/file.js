@@ -18,11 +18,11 @@
         $body.animate({scrollTop:0}, 800);
       });
 
-    $window.scroll(function (){
-        if($window.scrollTop() > offset) {
-          $top_link.fadeIn();
+    $window.scroll(function () {
+        if ($window.scrollTop() > offset) {
+            $top_link.fadeIn();
         } else {
-          $top_link.fadeOut();
+            $top_link.fadeOut();
         }
     }).scroll();
 
