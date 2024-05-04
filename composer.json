@@ -1,5 +1,5 @@
 {
-    "name": "sasha/hexlet-p2",
+    "name": "hexlet/code",
     "description": "show difference between two files",
     "autoload": {
         "psr-4": {
