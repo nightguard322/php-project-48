@@ -1,8 +1,8 @@
 <?php
 
-namespace Hexlet\P2\Render;
+namespace Differ\Differ;
 
-use function Hexlet\P2\Render\toString;
+use function Differ\Differ\toString;
 
 function plain(array $diff): string
 {

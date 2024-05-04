@@ -1,13 +1,13 @@
 <?php
 
-namespace Hexlet\P2;
+namespace Differ\Differ;
 
 use Exception;
 
-use function Hexlet\P2\parse;
-use function Hexlet\P2\Render\Stylish;
-use function Hexlet\P2\Render\plain;
-use function Hexlet\P2\Render\json;
+use function Differ\Differ\parse;
+use function Differ\Differ\Stylish;
+use function Differ\Differ\plain;
+use function Differ\Differ\json;
 
 function genDiff(string $file1, string $file2, string $format = 'stylish')
 {

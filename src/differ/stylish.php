@@ -1,13 +1,12 @@
 <?php
 
-namespace Hexlet\P2\Render;
+namespace Differ\Differ;
 
 const INDENTCOUNT = 4;
 const SPACE = ' ';
 
-use function Hexlet\P2\Render\flatten;
-use function Hexlet\P2\Render\render;
-use function Hexlet\P2\Render\toString;
+use function Differ\Differ\flatten;
+use function Differ\Differ\toString;
 
 function stylish($diffObject)
 {
