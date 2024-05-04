@@ -1,9 +1,9 @@
 <?php
 
-namespace Hexlet\P2\Tests;
+namespace Differ\Differ\Tests;
 
 use PHPUnit\Framework\TestCase;
-use function Hexlet\P2\parse;
+use function Differ\Differ\parse;
 
 class ParserTest extends TestCase
 {

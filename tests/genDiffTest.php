@@ -1,10 +1,9 @@
 <?php
 
-namespace Hexlet\P2\Tests;
+namespace Differ\Differ\Tests;
 
 use PHPUnit\Framework\TestCase;
-use function Hexlet\P2\genDiff;
-use function Hexlet\P2\parse;
+use function Differ\Differ\genDiff;
 
 class GendiffTest extends TestCase
 {

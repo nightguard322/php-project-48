@@ -3,9 +3,8 @@
     "description": "show difference between two files",
     "autoload": {
         "psr-4": {
-            "Hexlet\\P2\\Render\\": "src/render",
-            "Hexlet\\P2\\": "src/",
-            "Hexlet\\P2\\Tests\\": "tests/"
+            "Differ\\Differ\\Render\\": "src/differ",
+            "Differ\\Differ\\Tests\\": "tests/"
         },
         "files": [
             "src/render/models.php",
