@@ -24,23 +24,25 @@ function makeAst(array $file1, array $file2)
         $map,
         function ($ast, $key) use ($file1, $file2) {
             $newAst = $ast;
+            $data = [];
             switch (true) {
                 case (array_key_exists($key, $file1) && array_key_exists($key, $file2)):
                     if (is_array($file1[$key]) && (is_array($file2[$key]))) {
-                        $newAst[] = buildNode('nested', $key, null, null, makeAst($file1[$key], $file2[$key]));
+                        $data = buildNode('nested', $key, null, null, makeAst($file1[$key], $file2[$key]));
                     } elseif ($file1[$key] === $file2[$key]) {
-                        $newAst[] = buildNode('same', $key, $file1[$key]);
+                        $data = buildNode('same', $key, $file1[$key]);
                     } else {
-                        $newAst[] = buildNode('changed', $key, $file1[$key], $file2[$key]); //два значения
+                        $data = buildNode('changed', $key, $file1[$key], $file2[$key]); //два значения
                     }
                     break;
                 case array_key_exists($key, $file1):
-                    $newAst[] = buildNode('old', $key, $file1[$key]); //только старое
+                    $data = buildNode('old', $key, $file1[$key]); //только старое
                     break;
                 case array_key_exists($key, $file2):
-                    $newAst[] = buildNode('added', $key, null, $file2[$key]); //только новое
+                    $data = buildNode('added', $key, null, $file2[$key]); //только новое
                     break;
             };
+                $newAcc[] = $data;
                 return $newAst;
         },
         []
