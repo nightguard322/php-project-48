@@ -40,8 +40,7 @@ function makeAst(array $file1, array $file2)
                     $data = buildNode('added', $key, null, $file2[$key]); //только новое
                     break;
             }
-                $acc[] = $data;
-                return $acc;
+                return array_merge($acc, $data);
         },
         []
     );

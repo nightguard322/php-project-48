@@ -19,7 +19,7 @@ function parse(string $path)
     if (is_file($path)) {
         $pathinfo = pathinfo($path);
         $file = file_get_contents($path);
-        if (!$file) { //!!!!!
+        if ($file === false) { //!!!!!
             throw new Exception('file not found');
         }
     } else {

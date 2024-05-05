@@ -49,14 +49,14 @@ function stylish(array $diffObject)
 
 function getLine(int $depth, string $key, mixed $value, string $status = 'same')
 {
-    $newValue = $value;
     if (is_array($value)) {
         $newValue = array_map(
             fn($nodeKey) => getLine($depth + 1, $nodeKey, $value[$nodeKey]),
             array_keys($value)
         );
+        return prepareLine($depth, $key, $newValue, $status);
     }
-    return prepareLine($depth, $key, $newValue, $status);
+    return prepareLine($depth, $key, $value, $status);
 }
 
 function prepareLine(int $depth, string $key, mixed $value, string $status)
@@ -75,6 +75,6 @@ function prepareLine(int $depth, string $key, mixed $value, string $status)
         $lines = implode(PHP_EOL, ['{', ...$value, "{$bracketSpace}}"]);
         return "{$currentSpace}{$currentStatus}{$key}: {$lines}";
     }
-    $value = toString($value, false);
-    return "{$currentSpace}{$currentStatus}{$key}: {$value}";
+    $preparedValue = toString($value, false);
+    return "{$currentSpace}{$currentStatus}{$key}: {$preparedValue}";
 }
