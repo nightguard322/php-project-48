@@ -19,7 +19,7 @@ function makeAst(array $file1, array $file2)
 {
     $keys = array_merge(array_keys($file1), array_keys($file2));
     $map = array_unique($keys);
-    $sort = sort($map);//!!!!
+    sort($map);//!!!!
     $difference = array_reduce(
         $map,
         function ($acc, $key) use ($file1, $file2) {
