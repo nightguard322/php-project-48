@@ -22,25 +22,25 @@ function makeAst(array $file1, array $file2)
     sort($map);//!!!!
     $difference = array_reduce(
         $map,
-        function ($acc, $key) use ($file1, $file2) {
+        function ($ast, $key) use ($file1, $file2) {
             switch (true) {
                 case (array_key_exists($key, $file1) && array_key_exists($key, $file2)):
                     if (is_array($file1[$key]) && (is_array($file2[$key]))) {
-                        $data = buildNode('nested', $key, null, null, makeAst($file1[$key], $file2[$key]));
+                        $ast[] = buildNode('nested', $key, null, null, makeAst($file1[$key], $file2[$key]));
                     } elseif ($file1[$key] === $file2[$key]) {
-                        $data = buildNode('same', $key, $file1[$key]);
+                        $ast[] = buildNode('same', $key, $file1[$key]);
                     } else {
-                        $data = buildNode('changed', $key, $file1[$key], $file2[$key]); //два значения
+                        $ast[] = buildNode('changed', $key, $file1[$key], $file2[$key]); //два значения
                     }
                     break;
                 case array_key_exists($key, $file1):
-                    $data = buildNode('old', $key, $file1[$key]); //только старое
+                    $ast[] = buildNode('old', $key, $file1[$key]); //только старое
                     break;
                 case array_key_exists($key, $file2):
-                    $data = buildNode('added', $key, null, $file2[$key]); //только новое
+                    $ast[] = buildNode('added', $key, null, $file2[$key]); //только новое
                     break;
             }
-                return array_merge($acc, $data);
+                return $ast;
         },
         []
     );
