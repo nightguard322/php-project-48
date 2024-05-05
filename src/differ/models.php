@@ -45,6 +45,6 @@ function render(array $diff, bool $plain = true)
 
 function arraySort(array $sorted)
 {
-    sort($sorted);
+    asort($sorted);
     return $sorted;
 }
