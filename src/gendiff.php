@@ -42,7 +42,7 @@ function makeAst(array $file1, array $file2)
                     $data = buildNode('added', $key, null, $file2[$key]); //только новое
                     break;
             };
-                $newAcc[] = $data;
+                $newAst[] = $data;
                 return $newAst;
         },
         []
