@@ -23,8 +23,6 @@ function makeAst(array $file1, array $file2)
     $difference = array_reduce(
         $map,
         function ($ast, $key) use ($file1, $file2) {
-            $newAst = $ast;
-            $data = [];
             switch (true) {
                 case (array_key_exists($key, $file1) && array_key_exists($key, $file2)):
                     if (is_array($file1[$key]) && (is_array($file2[$key]))) {
@@ -42,8 +40,7 @@ function makeAst(array $file1, array $file2)
                     $data = buildNode('added', $key, null, $file2[$key]); //только новое
                     break;
             };
-                $ast[] = $data;
-                return $ast;
+                return [...$ast, $data];
         },
         []
     );

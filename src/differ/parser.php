@@ -25,7 +25,7 @@ function parse(string $path)
     } else {
         throw new Exception($path);
     }
-    $extension = $pathinfo['extension'];
+    $extension = $pathinfo['extension'] ?? null;
     switch ($extension) {
         case 'json':
             return json_decode($file, true);

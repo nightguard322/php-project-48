@@ -13,8 +13,7 @@ function toString(mixed $value, bool $plain = true)
             return $plain ? '[complex value]' : $value;
         case 'string':
             return $plain ? "'{$value}'" : $value;
-        case 'int':
-            return $value;
+        case 'integer':
         default:
             return $value;
     }
