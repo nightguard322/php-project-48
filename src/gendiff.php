@@ -6,6 +6,7 @@ use Exception;
 
 use function Differ\Differ\parse;
 use function Differ\Differ\getFormat;
+use function Differ\Differ\arraySort;
 
 function genDiff(string $file1, string $file2, string $format = 'stylish')
 {
@@ -19,10 +20,10 @@ function makeAst(array $file1, array $file2)
 {
     $keys = array_merge(array_keys($file1), array_keys($file2));
     $map = array_unique($keys);
-    sort($map);//!!!!
     $difference = array_reduce(
-        $map,
+        arraySort($map),
         function ($ast, $key) use ($file1, $file2) {
+            $data = [];
             switch (true) {
                 case (array_key_exists($key, $file1) && array_key_exists($key, $file2)):
                     if (is_array($file1[$key]) && (is_array($file2[$key]))) {
@@ -40,7 +41,8 @@ function makeAst(array $file1, array $file2)
                     $data = buildNode('added', $key, null, $file2[$key]); //только новое
                     break;
             };
-                return [...$ast, $data];
+                $newAst = array_merge($ast, [$data]);
+                return $newAst;
         },
         []
     );

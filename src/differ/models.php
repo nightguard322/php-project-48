@@ -42,3 +42,9 @@ function render(array $diff, bool $plain = true)
     }
     return implode("\n", $line);
 }
+
+function arraySort(array $sorted)
+{
+    sort($sorted);
+    return $sorted;
+}
