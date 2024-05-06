@@ -8,6 +8,7 @@ const SPACE = ' ';
 use function Differ\Differ\flatten;
 use function Differ\Differ\toString;
 
+
 function stylish(array $diffObject)
 {
     $diff = function ($current, $depth) use (&$diff) {

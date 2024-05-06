@@ -2,6 +2,8 @@
 
 namespace Differ\Differ;
 
+use Functional;
+
 function toString(mixed $value, bool $plain = true)
 {
     switch (gettype($value)) {
@@ -43,8 +45,11 @@ function render(array $diff, bool $plain = true)
     return implode("\n", $line);
 }
 
-function arraySort(array $sorted)
+function arraySort(array $toSort)
 {
-    asort($sorted);
-    return $sorted;
+    return Functional\sort(
+        $toSort,
+        fn($first, $last) =>
+            $first <=> $last
+    );
 }
