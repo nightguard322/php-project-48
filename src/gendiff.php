@@ -13,7 +13,6 @@ function genDiff(string $file1, string $file2, string $format = 'stylish')
     $firstFile = parse($file1);
     $secondFile = parse($file2);
     $ast = makeAst($firstFile, $secondFile);
-    die;
     return getFormat($format, $ast);
 }
 
